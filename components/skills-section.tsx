@@ -15,7 +15,7 @@ const tools = ["VS Code", "Git", "Figma", "Postman", "Docker", "AWS", "Vercel", 
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="py-20 bg-muted/50">
+    <section id="skills" className="py-20 bg-black">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">

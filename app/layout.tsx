@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={`font-sans bg-black text-white ${GeistSans.variable} ${GeistMono.variable}`}>
         <div className="fixed inset-0 z-0 pointer-events-none">
           <LightRays
             raysOrigin="top-left"
