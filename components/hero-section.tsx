@@ -44,7 +44,7 @@ export function HeroSection() {
     <section id="home" className="min-h-screen flex items-center justify-center relative bg-black">
       <div className="absolute inset-0">
         <Waves
-          lineColor="rgba(0, 255, 0, 0.15)"
+          lineColor="rgba(0, 100, 255, 0.15)"
           backgroundColor="transparent"
           waveSpeedX={0.01}
           waveSpeedY={0.005}

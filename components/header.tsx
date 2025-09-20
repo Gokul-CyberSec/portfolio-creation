@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Download } from "lucide-react"
 import styled from "styled-components"
 
 export function Header() {
@@ -23,6 +23,15 @@ export function Header() {
       element.scrollIntoView({ behavior: "smooth" })
       setIsMobileMenuOpen(false)
     }
+  }
+
+  const downloadResume = () => {
+    // You can replace this with your actual resume file path
+    const resumeUrl = "/resume.pdf" // Place your resume.pdf in the public folder
+    const link = document.createElement("a")
+    link.href = resumeUrl
+    link.download = "Resume.pdf"
+    link.click()
   }
 
   return (
@@ -68,6 +77,15 @@ export function Header() {
           </StyledWrapper>
 
           <div className="flex items-center gap-4">
+            {/* Download Resume Button - Desktop */}
+            <Button
+              onClick={downloadResume}
+              className="hidden md:flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
+            >
+              <Download className="h-4 w-4" />
+              Download Resume
+            </Button>
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -101,6 +119,15 @@ export function Header() {
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                 </button>
               ))}
+              
+              {/* Download Resume Button - Mobile */}
+              <button
+                onClick={downloadResume}
+                className="flex items-center gap-2 text-white bg-emerald-600 hover:bg-emerald-700 transition-all duration-300 p-3 rounded-xl font-medium mt-2"
+              >
+                <Download className="h-4 w-4" />
+                Download Resume
+              </button>
             </div>
           </nav>
         )}

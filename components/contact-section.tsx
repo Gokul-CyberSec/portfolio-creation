@@ -15,13 +15,36 @@ export function ContactSection() {
     email: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
-    // Reset form
-    setFormData({ name: "", email: "", message: "" })
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    
+    try {
+      // Your Formspree form endpoint
+      const response = await fetch('https://formspree.io/f/mrbanddb', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      
+      if (response.ok) {
+        setSubmitStatus('success')
+        setFormData({ name: "", email: "", message: "" })
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -121,12 +144,31 @@ export function ContactSection() {
                     placeholder="Type your encrypted message here..."
                   />
                 </div>
+                
+                {/* Status Messages */}
+                {submitStatus === 'success' && (
+                  <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                    <p className="text-green-400 font-mono text-sm">
+                      [SUCCESS] Message transmitted successfully! I'll get back to you soon.
+                    </p>
+                  </div>
+                )}
+                
+                {submitStatus === 'error' && (
+                  <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                    <p className="text-red-400 font-mono text-sm">
+                      [ERROR] Transmission failed. Please try again or contact directly.
+                    </p>
+                  </div>
+                )}
+                
                 <Button
                   type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700 text-black font-mono font-bold border border-green-500"
+                  disabled={isSubmitting}
+                  className="w-full bg-green-600 hover:bg-green-700 text-black font-mono font-bold border border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Terminal className="h-4 w-4 mr-2" />
-                  TRANSMIT MESSAGE
+                  {isSubmitting ? 'TRANSMITTING...' : 'TRANSMIT MESSAGE'}
                 </Button>
               </form>
             </div>
@@ -151,7 +193,7 @@ export function ContactSection() {
                       </div>
                       <div>
                         <p className="font-mono text-green-400 text-sm">[EMAIL_PROTOCOL]</p>
-                        <p className="text-green-300 font-mono text-sm">gokul.cybersec@protonmail.com</p>
+                        <p className="text-green-300 font-mono text-sm">apsr.1231@gmail.com</p>
                       </div>
                     </div>
                   </div>
@@ -163,7 +205,7 @@ export function ContactSection() {
                       </div>
                       <div>
                         <p className="font-mono text-green-400 text-sm">[VOICE_CHANNEL]</p>
-                        <p className="text-green-300 font-mono text-sm">+91 (XXX) XXX-XXXX</p>
+                        <p className="text-green-300 font-mono text-sm">+91 8870961327</p>
                       </div>
                     </div>
                   </div>
@@ -199,13 +241,6 @@ export function ContactSection() {
                   establish connection.
                 </p>
                 <div className="flex gap-4">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-blue-500 text-blue-400 hover:bg-blue-500/10 font-mono bg-transparent"
-                  >
-                    Schedule Security Audit
-                  </Button>
                   <Button
                     variant="outline"
                     size="sm"

@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import TargetCursor from "@/components/TargetCursor"
 import LightRays from "@/components/ui/light-rays"
+import BackToTopButton from "@/components/back-to-top-button"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             {children}
             <TargetCursor />
+            <BackToTopButton />
             <Analytics />
           </Suspense>
         </div>

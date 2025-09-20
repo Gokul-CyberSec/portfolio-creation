@@ -104,6 +104,14 @@ export function Footer() {
                 </li>
                 <li>
                   <a
+                    href="#skills"
+                    className="text-gray-400 hover:text-green-400 transition-colors flex items-center gap-2"
+                  >
+                    <span className="text-green-500">&gt;</span> Skills
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="#contact"
                     className="text-gray-400 hover:text-green-400 transition-colors flex items-center gap-2"
                   >
@@ -115,23 +123,16 @@ export function Footer() {
 
             <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Shield className="h-5 w-5 text-red-400" />
-                <h4 className="font-semibold text-red-400 font-mono">Security Services</h4>
+                <Shield className="h-5 w-5 text-orange-400" />
+                <h4 className="font-semibold text-orange-400 font-mono">TryHackMe Profile</h4>
               </div>
-              <ul className="space-y-2 font-mono text-sm text-gray-400">
-                <li className="flex items-center gap-2">
-                  <span className="text-red-500">•</span> Cybersecurity Audits
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-red-500">•</span> Penetration Testing
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-red-500">•</span> Security Consulting
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-red-500">•</span> Incident Response
-                </li>
-              </ul>
+              <div className="flex justify-center">
+                <iframe 
+                  src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3627803" 
+                  style={{border: 'none'}}
+                  className="w-full max-w-[280px] h-[200px] rounded-lg"
+                />
+              </div>
             </div>
           </div>
 
