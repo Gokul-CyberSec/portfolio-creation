@@ -138,6 +138,25 @@ export function SkillsSection() {
                   </li>
                 </ul>
               </div>
+
+              <div className="bg-gray-900 border border-orange-500/30 rounded-lg p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <span className="text-orange-400 font-mono text-sm">tryhackme_profile.log</span>
+                </div>
+                <h4 className="text-lg font-mono text-orange-400 mb-3">[ACTIVE] TryHackMe Profile</h4>
+                <div className="bg-black/50 border border-orange-500/20 rounded p-4">
+                  <iframe
+                    src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3627803"
+                    style={{ border: "none", width: "100%", height: "200px" }}
+                    className="rounded"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
