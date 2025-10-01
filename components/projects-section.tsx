@@ -5,25 +5,25 @@ import { ExternalLink, Github, Terminal, Folder } from "lucide-react"
 
 const projects = [
   {
-    title: "Vulnerability Scanner",
+    title: "CTF GHOST",
     description:
-      "Automated web application security scanner with custom payload generation and comprehensive reporting.",
-    technologies: ["Python", "Nmap", "SQLMap", "BeautifulSoup"],
+      "Automates Capture The Flag (CTF) challenge solving using AI to analyze and exploit vulnerabilities.",
+    technologies: ["Python", "Ctf Tools Api" , "Linux" , "AI"],
+    liveUrl: "#",
+    githubUrl: "https://github.com/Gokul-CyberSec/CTF_GHOST",
+  },
+  {
+    title: "Leaks_Lookup",
+    description:
+      "A comprehensive tool to search for email and username leaks across multiple data breach databases.",
+    technologies: ["Python", "APIs", "Data Parsing", "Automation"],
     liveUrl: "#",
     githubUrl: "#",
   },
   {
-    title: "Red Team Toolkit",
-    description:
-      "Collection of penetration testing tools for reconnaissance, exploitation, and post-exploitation activities.",
-    technologies: ["Bash", "PowerShell", "Metasploit", "Cobalt Strike"],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "SIEM Dashboard",
-    description: "Real-time security monitoring dashboard with threat detection and incident response automation.",
-    technologies: ["ELK Stack", "Splunk", "Python", "Docker"],
+    title: "Wifi_Pumpkin",
+    description: "Wi-Fi penetration testing Tool for network auditing and security assessments.",
+    technologies: ["Python", "Scapy", "Kali Linux", "Network Security"],
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -34,20 +34,7 @@ const projects = [
     liveUrl: "#",
     githubUrl: "#",
   },
-  {
-    title: "Network Forensics Tool",
-    description: "Network traffic analysis tool for digital forensics and incident response investigations.",
-    technologies: ["Wireshark", "Python", "Scapy", "NetworkX"],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Malware Analysis Lab",
-    description: "Isolated environment for malware analysis with automated behavioral analysis and reporting.",
-    technologies: ["VirtualBox", "Cuckoo", "YARA", "IDA Pro"],
-    liveUrl: "#",
-    githubUrl: "#",
-  },
+  
 ]
 
 export function ProjectsSection() {
@@ -67,7 +54,7 @@ export function ProjectsSection() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 group">
+          <div className="grid md:grid-cols-2 gap-8 group">
             {projects.map((project, index) => (
               <div
                 key={index}

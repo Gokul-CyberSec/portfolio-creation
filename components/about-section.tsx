@@ -57,45 +57,19 @@ export function AboutSection() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-8">
-            <div className="bg-gray-900 border-2 border-green-500 rounded-lg p-6 font-mono hover:border-green-400 transition-colors">
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <Shield className="h-12 w-12 text-green-400" />
-                </div>
-                <div className="text-green-400 mb-2">
-                  <span className="text-green-500">$</span> ./security_audit.sh
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-green-300">Security Auditing</h3>
-                <p className="text-green-200 text-sm">Comprehensive security assessments and vulnerability analysis</p>
-              </div>
+          <div className="bg-gray-900 border-2 border-green-500 rounded-lg p-6 font-mono mb-12">
+            <div className="text-green-400 mb-4">
+              <span className="text-green-500">$</span> cat recent_achievements.txt
             </div>
-
-            <div className="bg-gray-900 border-2 border-green-500 rounded-lg p-6 font-mono hover:border-green-400 transition-colors">
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <Bug className="h-12 w-12 text-green-400" />
+            <div className="bg-gray-800/50 border border-green-500/30 rounded p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-green-400 text-xl mt-1">🛡️</span>
+                <div>
+                  <h4 className="text-green-300 font-semibold mb-2">Ethical Hacking Contribution</h4>
+                  <p className="text-green-200 leading-relaxed">
+                    Responsible Disclosure: Identified Authentication Bypass vulnerability (jackjones.in – Bestseller Group)
+                  </p>
                 </div>
-                <div className="text-green-400 mb-2">
-                  <span className="text-green-500">$</span> ./bug_hunter.py
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-green-300">Bug Hunting</h3>
-                <p className="text-green-200 text-sm">
-                  Finding and reporting security vulnerabilities in web applications
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-gray-900 border-2 border-green-500 rounded-lg p-6 font-mono hover:border-green-400 transition-colors">
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <Target className="h-12 w-12 text-green-400" />
-                </div>
-                <div className="text-green-400 mb-2">
-                  <span className="text-green-500">$</span> ./red_team.exe
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-green-300">Red Teaming</h3>
-                <p className="text-green-200 text-sm">Simulating real-world attacks to test organizational defenses</p>
               </div>
             </div>
           </div>

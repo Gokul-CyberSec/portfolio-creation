@@ -23,14 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans bg-black text-white ${GeistSans.variable} ${GeistMono.variable}`}>
-        <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
           <LightRays
             raysOrigin="top-left"
-            raysColor="#66e3c4"
-            raysSpeed={1.2}
-            lightSpread={1.2}
-            rayLength={2.2}
-            noiseAmount={0.05}
+            raysColor="#00ff88"
+            raysSpeed={0.8}
+            lightSpread={2.5}
+            rayLength={3.5}
+            noiseAmount={0.1}
+            saturation={0.8}
+            fadeDistance={0.3}
+            pulsating={true}
           />
         </div>
         <div className="relative z-10">

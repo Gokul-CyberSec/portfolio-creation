@@ -22,6 +22,32 @@ import {
   Network
 } from "lucide-react"
 
+// Custom tool icons
+const BurpSuiteIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+  </svg>
+)
+
+const MetasploitIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+  </svg>
+)
+
+const DockerIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186"/>
+  </svg>
+)
+
+const KaliLinuxIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+)
+
 const skills = [
   { name: "Python", level: 90 },
   { name: "Bash/Shell Scripting", level: 85 },
@@ -39,29 +65,26 @@ const skills = [
 
 const tools = [
   // Development Tools
-  { name: "VS Code", icon: Code, category: "development", color: "blue" as const },
-  { name: "Git", icon: GitBranch, category: "development", color: "orange" as const },
-  { name: "GitHub", icon: Globe, category: "development", color: "gray" as const },
-  { name: "Docker", icon: Layers, category: "development", color: "blue" as const },
+  { name: "Docker", icon: DockerIcon, category: "development", color: "blue" as const },
   { name: "Postman", icon: Server, category: "development", color: "orange" as const },
   
   // Security Tools
-  { name: "Burp Suite", icon: Bug, category: "security", color: "red" as const },
+  { name: "Burp Suite", icon: BurpSuiteIcon, category: "security", color: "red" as const },
   { name: "Nmap", icon: Search, category: "security", color: "red" as const },
   { name: "Wireshark", icon: Network, category: "security", color: "blue" as const },
-  { name: "Metasploit", icon: Shield, category: "security", color: "red" as const },
-  { name: "Kali Linux", icon: Terminal, category: "security", color: "green" as const },
+  { name: "Metasploit", icon: MetasploitIcon, category: "security", color: "red" as const },
+  { name: "Kali Linux", icon: KaliLinuxIcon, category: "security", color: "green" as const },
   { name: "Hydra", icon: Lock, category: "security", color: "red" as const },
   
   // Cloud & DevOps
   { name: "AWS", icon: Cloud, category: "cloud", color: "yellow" as const },
-  { name: "Vercel", icon: Zap, category: "cloud", color: "purple" as const },
-  { name: "GitHub Actions", icon: Activity, category: "cloud", color: "green" as const },
+  { name: "John the Ripper", icon: Lock, category: "security", color: "red" as const },
+  { name: "Aircrack-ng", icon: Wifi, category: "security", color: "red" as const },
   
   // Monitoring & Analysis
-  { name: "Splunk", icon: Eye, category: "monitoring", color: "green" as const },
+  { name: "Splunk", icon: Database, category: "monitoring", color: "green" as const },
   { name: "Suricata", icon: Shield, category: "monitoring", color: "orange" as const },
-  { name: "Zeek", icon: MonitorSpeaker, category: "monitoring", color: "blue" as const },
+  { name: "Zeek", icon: Eye, category: "monitoring", color: "blue" as const },
   { name: "pfSense", icon: Wifi, category: "monitoring", color: "red" as const },
 ]
 
@@ -180,7 +203,7 @@ export function SkillsSection() {
                 
                 <div className="grid grid-cols-2 gap-3">
                   <a 
-                    href="https://example.com/isc2-cert" 
+                    href="#" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group relative block"
@@ -188,7 +211,7 @@ export function SkillsSection() {
                     <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(34,197,94,0.4)]"></div>
                     <div className="relative bg-gray-900 m-[1px] rounded-md p-3 h-24 transition-all duration-300 group-hover:scale-[0.98] cursor-pointer flex items-center gap-3">
                       <img 
-                        src="/icons/Certified in Cybersecurity .png" 
+                        src="/icons/isc2.png" 
                         alt="ISC2 CC" 
                         className="w-8 h-8 object-contain flex-shrink-0"
                       />
@@ -197,7 +220,7 @@ export function SkillsSection() {
                   </a>
 
                   <a 
-                    href="https://example.com/ibm-cert" 
+                    href="#" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group relative block"
@@ -214,7 +237,7 @@ export function SkillsSection() {
                   </a>
 
                   <a 
-                    href="https://example.com/redhat-cert" 
+                    href="https://coursera.org/verify/Q6MVOF4UTSJ8" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group relative block"
@@ -231,7 +254,7 @@ export function SkillsSection() {
                   </a>
 
                   <a 
-                    href="https://example.com/cybersecurity-fundamentals" 
+                    href="https://www.credly.com/badges/05c5533c-6d2d-42b6-bfb9-af4d9733c8c8" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group relative block"
@@ -248,7 +271,7 @@ export function SkillsSection() {
                   </a>
 
                   <a 
-                    href="https://example.com/cisco-networking" 
+                    href="https://www.credly.com/badges/f88487c1-9b36-4854-8780-c7f577a207c7" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group relative block"
@@ -265,7 +288,7 @@ export function SkillsSection() {
                   </a>
 
                   <a 
-                    href="https://example.com/aws-cloud" 
+                    href="https://www.credly.com/badges/677c1c1c-d093-4ea8-aa33-9550f31486bc" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="group relative block"
@@ -278,19 +301,6 @@ export function SkillsSection() {
                         className="w-8 h-8 object-contain flex-shrink-0"
                       />
                       <span className="font-mono text-xs text-yellow-300 leading-tight">AWS Cloud 101</span>
-                    </div>
-                  </a>
-
-                  <a 
-                    href="https://example.com/tryhackme-profile" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="group relative block col-span-2"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.4)]"></div>
-                    <div className="relative bg-gray-900 m-[1px] rounded-md p-3 h-24 transition-all duration-300 group-hover:scale-[0.98] cursor-pointer flex items-center justify-center gap-3">
-                      <span className="text-orange-400 text-2xl">🚩</span>
-                      <span className="font-mono text-xs text-orange-300 leading-tight">TryHackMe Pre Security Certificate</span>
                     </div>
                   </a>
                 </div>
