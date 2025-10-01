@@ -195,7 +195,7 @@ const StyledWrapper = styled.div`
   .hamster__tail {
     animation: hamsterTail var(--dur) linear infinite;
     background: hsl(0,90%,85%);
-    border-radius: 0.25em 50% 50% 0.25em;
+    border-radius: 0.25em;
     box-shadow: 0 -0.2em 0 hsl(0,90%,75%) inset;
     top: 1.5em;
     right: -0.5em;
@@ -211,12 +211,10 @@ const StyledWrapper = styled.div`
 		linear-gradient(hsla(0,0%,55%,0) 46.9%,hsl(0,0%,65%) 47% 52.9%,hsla(0,0%,65%,0) 53%) 50% 50% / 99% 99% no-repeat;
   }
 
-  /* Animations */
   @keyframes hamster {
     from, to {
       transform: rotate(4deg) translate(-0.8em,1.85em);
     }
-
     50% {
       transform: rotate(0) translate(-0.8em,1.85em);
     }
@@ -226,7 +224,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(0);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(8deg);
     }
@@ -236,7 +233,6 @@ const StyledWrapper = styled.div`
     from, 90%, to {
       transform: scaleY(1);
     }
-
     95% {
       transform: scaleY(0);
     }
@@ -246,7 +242,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(0);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(12deg);
     }
@@ -256,7 +251,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(0);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(-2deg);
     }
@@ -266,7 +260,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(50deg) translateZ(-1px);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(-30deg) translateZ(-1px);
     }
@@ -276,7 +269,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(-30deg);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(50deg);
     }
@@ -286,7 +278,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(-60deg) translateZ(-1px);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(20deg) translateZ(-1px);
     }
@@ -296,7 +287,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(20deg);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(-60deg);
     }
@@ -306,7 +296,6 @@ const StyledWrapper = styled.div`
     from, 25%, 50%, 75%, to {
       transform: rotate(30deg) translateZ(-1px);
     }
-
     12.5%, 37.5%, 62.5%, 87.5% {
       transform: rotate(10deg) translateZ(-1px);
     }
@@ -316,7 +305,6 @@ const StyledWrapper = styled.div`
     from {
       transform: rotate(0);
     }
-
     to {
       transform: rotate(-1turn);
     }
