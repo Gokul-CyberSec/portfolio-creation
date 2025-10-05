@@ -27,7 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans bg-black text-white ${GeistSans.variable} ${GeistMono.variable}`} style={{ touchAction: 'pan-y' }}>
+      <body 
+        className={`font-sans bg-black text-white ${GeistSans.variable} ${GeistMono.variable}`} 
+        style={{ 
+          touchAction: 'pan-y', 
+          WebkitOverflowScrolling: 'touch',
+          overflowX: 'hidden',
+          position: 'relative',
+          minHeight: '100vh'
+        }}
+      >
         <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
           <LightRays
             raysOrigin="top-left"

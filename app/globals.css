@@ -95,21 +95,55 @@
   }
 }
 
-/* Mobile scrolling fixes */
+/* Enhanced Mobile scrolling fixes */
 html {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+  overscroll-behavior: contain;
+  position: relative;
+  min-height: 100%;
+  width: 100%;
+}
+
+/* Fix for iOS Safari scrolling issues */
+html, body {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Prevent horizontal scroll on mobile */
 * {
   box-sizing: border-box;
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+  body {
+    overflow: visible;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+  }
+  
+  /* Fix for mobile viewport */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Ensure all containers allow scrolling */
+  div[class*="min-h-screen"] {
+    overflow: visible;
+  }
 }
 
 /* Mobile viewport height fix */

@@ -27,9 +27,23 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div 
+      className="min-h-screen bg-background overflow-x-hidden"
+      style={{
+        WebkitOverflowScrolling: 'touch',
+        overflowY: 'auto',
+        position: 'relative',
+        width: '100%'
+      }}
+    >
       <Header />
-      <main className="relative">
+      <main 
+        className="relative"
+        style={{
+          WebkitOverflowScrolling: 'touch',
+          overflowY: 'visible'
+        }}
+      >
         <HeroSection />
         <AboutSection />
         <ProjectsSection />

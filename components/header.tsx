@@ -46,6 +46,8 @@ export function Header() {
           ? "linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.90) 100%)"
           : "linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.75) 100%)",
         borderImage: "linear-gradient(90deg, transparent, rgba(148,163,184,0.3), transparent) 1",
+        touchAction: 'pan-y',
+        WebkitTransform: 'translateZ(0)' // Force hardware acceleration
       }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
