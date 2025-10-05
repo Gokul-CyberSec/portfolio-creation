@@ -10,9 +10,14 @@ import BackToTopButton from "@/components/back-to-top-button"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "Gokul - Portfolio",
+  description: "Cybersecurity Professional & Ethical Hacker Portfolio",
+  generator: "Next.js",
+  icons: {
+    icon: "/hacker.png",
+    shortcut: "/hacker.png",
+    apple: "/hacker.png",
+  },
 }
 
 export default function RootLayout({

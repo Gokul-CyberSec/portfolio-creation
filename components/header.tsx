@@ -51,7 +51,7 @@ export function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="font-bold text-xl text-white relative">
-            <span className="relative z-10 drop-shadow-sm">Portfolio</span>
+            <span className="relative z-10 drop-shadow-sm">G0kµ1</span>
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 blur-sm rounded-lg -z-10"></div>
           </div>
 
