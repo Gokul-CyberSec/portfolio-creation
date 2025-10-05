@@ -39,6 +39,12 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   useEffect(() => {
     if (!cursorRef.current) return;
 
+    // Disable cursor on mobile/touch devices
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isMobile) {
+      return;
+    }
+
     const originalCursor = document.body.style.cursor;
     if (hideDefaultCursor) {
       document.body.style.cursor = 'none';

@@ -27,9 +27,9 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Header />
-      <main>
+      <main className="relative">
         <HeroSection />
         <AboutSection />
         <ProjectsSection />

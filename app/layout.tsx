@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans bg-black text-white ${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={`font-sans bg-black text-white ${GeistSans.variable} ${GeistMono.variable}`} style={{ touchAction: 'pan-y' }}>
         <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
           <LightRays
             raysOrigin="top-left"
@@ -41,7 +41,7 @@ export default function RootLayout({
             pulsating={true}
           />
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 w-full">
           <Suspense fallback={null}>
             {children}
             <TargetCursor />
