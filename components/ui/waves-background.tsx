@@ -24,17 +24,62 @@ interface WavesProps {
   className?: string
 }
 
+type CursorState = {
+  x: number
+  y: number
+  vx: number
+  vy: number
+}
+
+type WavePoint = {
+  x: number
+  y: number
+  wave: { x: number; y: number }
+  cursor: CursorState
+}
+
+type BoundingBox = {
+  width: number
+  height: number
+  left: number
+  top: number
+}
+
+type MouseState = {
+  x: number
+  y: number
+  lx: number
+  ly: number
+  sx: number
+  sy: number
+  v: number
+  vs: number
+  a: number
+  set: boolean
+}
+
 class Grad {
-  constructor(x, y, z) {
+  x: number
+  y: number
+  z: number
+
+  constructor(x: number, y: number, z: number) {
     this.x = x
     this.y = y
     this.z = z
   }
-  dot2(x, y) {
+
+  dot2(x: number, y: number): number {
     return this.x * x + this.y * y
   }
 }
+
 class Noise {
+  grad3: Grad[]
+  p: number[]
+  perm: number[]
+  gradP: Grad[]
+
   constructor(seed = 0) {
     this.grad3 = [
       new Grad(1, 1, 0),
@@ -63,37 +108,46 @@ class Noise {
       184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128,
       195, 78, 66, 215, 61, 156, 180,
     ]
-    this.perm = new Array(512)
-    this.gradP = new Array(512)
+    this.perm = new Array<number>(512)
+    this.gradP = new Array<Grad>(512)
     this.seed(seed)
   }
-  seed(seed) {
+
+  seed(seed: number) {
     if (seed > 0 && seed < 1) seed *= 65536
     seed = Math.floor(seed)
     if (seed < 256) seed |= seed << 8
     for (let i = 0; i < 256; i++) {
-      const v = i & 1 ? this.p[i] ^ (seed & 255) : this.p[i] ^ ((seed >> 8) & 255)
+      const base = this.p[i] ?? 0
+      const v = i & 1 ? base ^ (seed & 255) : base ^ ((seed >> 8) & 255)
       this.perm[i] = this.perm[i + 256] = v
-      this.gradP[i] = this.gradP[i + 256] = this.grad3[v % 12]
+      this.gradP[i] = this.gradP[i + 256] = this.grad3[v % 12] ?? this.grad3[0]
     }
   }
-  fade(t) {
+
+  fade(t: number) {
     return t * t * t * (t * (t * 6 - 15) + 10)
   }
-  lerp(a, b, t) {
+
+  lerp(a: number, b: number, t: number) {
     return (1 - t) * a + t * b
   }
-  perlin2(x, y) {
-    let X = Math.floor(x),
-      Y = Math.floor(y)
+
+  perlin2(x: number, y: number) {
+    let X = Math.floor(x)
+    let Y = Math.floor(y)
     x -= X
     y -= Y
     X &= 255
     Y &= 255
-    const n00 = this.gradP[X + this.perm[Y]].dot2(x, y)
-    const n01 = this.gradP[X + this.perm[Y + 1]].dot2(x, y - 1)
-    const n10 = this.gradP[X + 1 + this.perm[Y]].dot2(x - 1, y)
-    const n11 = this.gradP[X + 1 + this.perm[Y + 1]].dot2(x - 1, y - 1)
+    const grad00 = this.gradP[X + this.perm[Y]!] ?? this.grad3[0]
+    const grad01 = this.gradP[X + this.perm[Y + 1]!] ?? this.grad3[0]
+    const grad10 = this.gradP[X + 1 + this.perm[Y]!] ?? this.grad3[0]
+    const grad11 = this.gradP[X + 1 + this.perm[Y + 1]!] ?? this.grad3[0]
+    const n00 = grad00.dot2(x, y)
+    const n01 = grad01.dot2(x, y - 1)
+    const n10 = grad10.dot2(x - 1, y)
+    const n11 = grad11.dot2(x - 1, y - 1)
     const u = this.fade(x)
     return this.lerp(this.lerp(n00, n10, u), this.lerp(n01, n11, u), this.fade(y))
   }
@@ -113,13 +167,13 @@ export function Waves({
   maxCursorMove = 100,
   className,
 }: WavesProps) {
-  const containerRef = useRef(null)
-  const canvasRef = useRef(null)
-  const ctxRef = useRef(null)
-  const boundingRef = useRef({ width: 0, height: 0, left: 0, top: 0 })
-  const noiseRef = useRef(new Noise(Math.random()))
-  const linesRef = useRef([])
-  const mouseRef = useRef({
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
+  const boundingRef = useRef<BoundingBox>({ width: 0, height: 0, left: 0, top: 0 })
+  const noiseRef = useRef<Noise>(new Noise(Math.random()))
+  const linesRef = useRef<WavePoint[][]>([])
+  const mouseRef = useRef<MouseState>({
     x: -10,
     y: 0,
     lx: 0,
@@ -135,12 +189,26 @@ export function Waves({
   useEffect(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
-    ctxRef.current = canvas.getContext("2d")
+
+    if (!canvas || !container) {
+      return
+    }
+
+    const canvasEl = canvas
+    const containerEl = container
+
+    const context = canvasEl.getContext("2d")
+    if (!context) {
+      return
+    }
+    ctxRef.current = context
+
+    let animationFrameId = 0
 
     function setSize() {
-      boundingRef.current = container.getBoundingClientRect()
-      canvas.width = boundingRef.current.width
-      canvas.height = boundingRef.current.height
+      boundingRef.current = containerEl.getBoundingClientRect()
+      canvasEl.width = boundingRef.current.width
+      canvasEl.height = boundingRef.current.height
     }
 
     function setLines() {
@@ -153,7 +221,7 @@ export function Waves({
       const xStart = (width - xGap * totalLines) / 2
       const yStart = (height - yGap * totalPoints) / 2
       for (let i = 0; i <= totalLines; i++) {
-        const pts = []
+        const pts: WavePoint[] = []
         for (let j = 0; j <= totalPoints; j++) {
           pts.push({
             x: xStart + xGap * i,
@@ -166,7 +234,7 @@ export function Waves({
       }
     }
 
-    function movePoints(time) {
+    function movePoints(time: number) {
       const lines = linesRef.current
       const mouse = mouseRef.current
       const noise = noiseRef.current
@@ -200,7 +268,7 @@ export function Waves({
       })
     }
 
-    function moved(point, withCursor = true) {
+    function moved(point: WavePoint, withCursor = true) {
       const x = point.x + point.wave.x + (withCursor ? point.cursor.x : 0)
       const y = point.y + point.wave.y + (withCursor ? point.cursor.y : 0)
       return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 }
@@ -209,6 +277,7 @@ export function Waves({
     function drawLines() {
       const { width, height } = boundingRef.current
       const ctx = ctxRef.current
+      if (!ctx) return
       ctx.clearRect(0, 0, width, height)
       ctx.beginPath()
       ctx.strokeStyle = lineColor
@@ -226,7 +295,7 @@ export function Waves({
       ctx.stroke()
     }
 
-    function tick(t) {
+    function tick(t: number) {
       const mouse = mouseRef.current
 
       mouse.sx += (mouse.x - mouse.sx) * 0.1
@@ -242,27 +311,27 @@ export function Waves({
       mouse.ly = mouse.y
       mouse.a = Math.atan2(dy, dx)
 
-      container.style.setProperty("--x", `${mouse.sx}px`)
-      container.style.setProperty("--y", `${mouse.sy}px`)
+  containerEl.style.setProperty("--x", `${mouse.sx}px`)
+  containerEl.style.setProperty("--y", `${mouse.sy}px`)
 
       movePoints(t)
       drawLines()
-      requestAnimationFrame(tick)
+      animationFrameId = requestAnimationFrame(tick)
     }
 
     function onResize() {
       setSize()
       setLines()
     }
-    function onMouseMove(e) {
+    function onMouseMove(e: MouseEvent) {
       updateMouse(e.pageX, e.pageY)
     }
-    function onTouchMove(e) {
-      e.preventDefault()
-      const touch = e.touches[0]
+    function onTouchMove(e: TouchEvent) {
+      const touch = e.touches && e.touches[0]
+      if (!touch) return
       updateMouse(touch.clientX, touch.clientY)
     }
-    function updateMouse(x, y) {
+    function updateMouse(x: number, y: number) {
       const mouse = mouseRef.current
       const b = boundingRef.current
       mouse.x = x - b.left
@@ -278,15 +347,16 @@ export function Waves({
 
     setSize()
     setLines()
-    requestAnimationFrame(tick)
+    animationFrameId = requestAnimationFrame(tick)
     window.addEventListener("resize", onResize)
     window.addEventListener("mousemove", onMouseMove)
-    window.addEventListener("touchmove", onTouchMove, { passive: false })
+    window.addEventListener("touchmove", onTouchMove, { passive: true })
 
     return () => {
       window.removeEventListener("resize", onResize)
       window.removeEventListener("mousemove", onMouseMove)
       window.removeEventListener("touchmove", onTouchMove)
+      cancelAnimationFrame(animationFrameId)
     }
   }, [
     lineColor,
