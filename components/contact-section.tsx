@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, Terminal } from "lucide-react"
+import Link from "next/link"
+import { Mail, MapPin, Phone, Terminal, Download } from "lucide-react"
 
 // Custom Rocket Icon Component
 const RocketIcon = ({ className }: { className?: string }) => (
@@ -282,11 +283,14 @@ export function ContactSection() {
                 </p>
                 <div className="flex gap-4">
                   <Button
+                    asChild
                     variant="outline"
                     size="sm"
                     className="border-green-500 text-green-400 hover:bg-green-500/10 font-mono bg-transparent"
                   >
-                    Download Resume.pdf
+                    <Link href="/resume.pdf" download>
+                      <Download className="mr-2 h-4 w-4" /> Download Resume
+                    </Link>
                   </Button>
                 </div>
               </div>

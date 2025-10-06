@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Download } from "lucide-react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 const NAV_ITEMS = [
@@ -52,23 +53,18 @@ export function Header() {
     return () => observer.disconnect()
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollOrNavigate = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
       setIsMobileMenuOpen(false)
       setActiveSection(sectionId)
+    } else {
+      window.location.href = `/#${sectionId}`
     }
   }
 
-  const downloadResume = () => {
-    // You can replace this with your actual resume file path
-    const resumeUrl = "/resume.pdf" // Place your resume.pdf in the public folder
-    const link = document.createElement("a")
-    link.href = resumeUrl
-    link.download = "Resume.pdf"
-    link.click()
-  }
+  const resumeHref = "/resume.pdf"
 
   return (
     <header
@@ -98,9 +94,13 @@ export function Header() {
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id
               return (
-                <button
+                <Link
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  href={`/#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollOrNavigate(item.id)
+                  }}
                   className={cn(
                     "relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300",
                     isActive ? "text-emerald-300" : "text-slate-300 hover:text-emerald-200"
@@ -114,7 +114,7 @@ export function Header() {
                       isActive && "scale-100 opacity-100 shadow-[0_0_18px_rgba(16,185,129,0.35)]"
                     )}
                   />
-                </button>
+                </Link>
               )
             })}
           </nav>
@@ -122,11 +122,13 @@ export function Header() {
           <div className="flex items-center gap-4">
             {/* Download Resume Button - Desktop */}
             <Button
-              onClick={downloadResume}
+              asChild
               className="hidden md:flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
             >
-              <Download className="h-4 w-4" />
-              Download Resume
+              <Link href={resumeHref} download>
+                <Download className="h-4 w-4" />
+                Download Resume
+              </Link>
             </Button>
 
             {/* Mobile Menu Button */}
@@ -147,24 +149,30 @@ export function Header() {
           <nav className="md:hidden py-4 border-t border-slate-700/50 backdrop-blur-xl">
             <div className="flex flex-col space-y-2 bg-slate-800/80 rounded-2xl p-4 backdrop-blur-sm border border-slate-600/30">
               {NAV_ITEMS.map((item) => (
-                <button
+                <Link
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  href={`/#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollOrNavigate(item.id)
+                  }}
                   className="text-left text-white hover:text-emerald-300 transition-all duration-300 p-3 rounded-xl hover:bg-slate-700/60 backdrop-blur-sm relative group font-medium"
                 >
                   <span className="relative z-10">{item.label}</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-                </button>
+                </Link>
               ))}
               
               {/* Download Resume Button - Mobile */}
-              <button
-                onClick={downloadResume}
+              <Button
+                asChild
                 className="flex items-center gap-2 text-white bg-emerald-600 hover:bg-emerald-700 transition-all duration-300 p-3 rounded-xl font-medium mt-2"
               >
-                <Download className="h-4 w-4" />
-                Download Resume
-              </button>
+                <Link href={resumeHref} download>
+                  <Download className="h-4 w-4" />
+                  Download Resume
+                </Link>
+              </Button>
             </div>
           </nav>
         )}
