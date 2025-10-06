@@ -3,11 +3,20 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Download } from "lucide-react"
-import styled from "styled-components"
+import { cn } from "@/lib/utils"
+
+const NAV_ITEMS = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
+]
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState<string>(NAV_ITEMS[0]?.id ?? "home")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +26,38 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      {
+        root: null,
+        rootMargin: "-40% 0px -50% 0px",
+        threshold: 0.1,
+      }
+    )
+
+    NAV_ITEMS.forEach((item) => {
+      const element = document.getElementById(item.id)
+      if (element) {
+        observer.observe(element)
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
       setIsMobileMenuOpen(false)
+      setActiveSection(sectionId)
     }
   }
 
@@ -57,26 +93,31 @@ export function Header() {
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 blur-sm rounded-lg -z-10"></div>
           </div>
 
-          {/* Desktop Navigation - Glass Radio Group */}
-          <StyledWrapper className="hidden md:flex">
-            <div className="glass-radio-group">
-              <input
-                type="radio"
-                name="plan"
-                id="glass-silver"
-                defaultChecked
-                onClick={() => scrollToSection("home")}
-              />
-              <label htmlFor="glass-silver">About</label>
-              <input type="radio" name="plan" id="glass-gold" onClick={() => scrollToSection("projects")} />
-              <label htmlFor="glass-gold">Projects</label>
-              <input type="radio" name="plan" id="glass-platinum" onClick={() => scrollToSection("skills")} />
-              <label htmlFor="glass-platinum">Skills</label>
-              <input type="radio" name="plan" id="glass-diamond" onClick={() => scrollToSection("contact")} />
-              <label htmlFor="glass-diamond">Contact</label>
-              <div className="glass-glider" />
-            </div>
-          </StyledWrapper>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-2 rounded-2xl border border-slate-600/40 bg-slate-900/70 px-3 py-2 shadow-inner shadow-black/20 backdrop-blur">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.id
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={cn(
+                    "relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300",
+                    isActive ? "text-emerald-300" : "text-slate-300 hover:text-emerald-200"
+                  )}
+                >
+                  <span className="relative z-10">{item.label}</span>
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute inset-0 scale-95 rounded-full border border-emerald-400/30 bg-emerald-500/10 opacity-0 transition-all duration-300",
+                      isActive && "scale-100 opacity-100 shadow-[0_0_18px_rgba(16,185,129,0.35)]"
+                    )}
+                  />
+                </button>
+              )
+            })}
+          </nav>
 
           <div className="flex items-center gap-4">
             {/* Download Resume Button - Desktop */}
@@ -105,13 +146,7 @@ export function Header() {
         {isMobileMenuOpen && (
           <nav className="md:hidden py-4 border-t border-slate-700/50 backdrop-blur-xl">
             <div className="flex flex-col space-y-2 bg-slate-800/80 rounded-2xl p-4 backdrop-blur-sm border border-slate-600/30">
-              {[
-                { id: "home", label: "Home" },
-                { id: "about", label: "About" },
-                { id: "projects", label: "Projects" },
-                { id: "skills", label: "Skills" },
-                { id: "contact", label: "Contact" },
-              ].map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
@@ -137,103 +172,3 @@ export function Header() {
     </header>
   )
 }
-
-const StyledWrapper = styled.div`
-  .glass-radio-group {
-    /* Updated background and text colors for better dark mode contrast */
-    --bg: rgba(30, 41, 59, 0.8);
-    --text: #ffffff;
-    display: flex;
-    position: relative;
-    background: var(--bg);
-    border-radius: 1rem;
-    backdrop-filter: blur(12px);
-    box-shadow:
-      inset 1px 1px 4px rgba(255, 255, 255, 0.1),
-      inset -1px -1px 6px rgba(0, 0, 0, 0.5),
-      0 4px 12px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    width: fit-content;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-  }
-
-  .glass-radio-group input {
-    display: none;
-  }
-
-  .glass-radio-group label {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-    font-size: 14px;
-    padding: 0.8rem 1.6rem;
-    cursor: pointer;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    color: var(--text);
-    position: relative;
-    z-index: 2;
-    transition: color 0.3s ease-in-out;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
-
-  .glass-radio-group label:hover {
-    color: #10b981;
-  }
-
-  .glass-radio-group input:checked + label {
-    color: #ffffff;
-    text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
-  }
-
-  /* Adding the missing glider base styles */
-  .glass-glider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 25%;
-    border-radius: 0.8rem;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
-    backdrop-filter: blur(8px);
-  }
-
-  /* Silver */
-  #glass-silver:checked ~ .glass-glider {
-    transform: translateX(0%);
-    background: linear-gradient(135deg, #10b981aa, #059669);
-    box-shadow:
-      0 0 18px rgba(16, 185, 129, 0.4),
-      0 0 10px rgba(16, 185, 129, 0.2) inset;
-  }
-
-  /* Gold */
-  #glass-gold:checked ~ .glass-glider {
-    transform: translateX(100%);
-    background: linear-gradient(135deg, #10b981aa, #059669);
-    box-shadow:
-      0 0 18px rgba(16, 185, 129, 0.4),
-      0 0 10px rgba(16, 185, 129, 0.2) inset;
-  }
-
-  /* Platinum */
-  #glass-platinum:checked ~ .glass-glider {
-    transform: translateX(200%);
-    background: linear-gradient(135deg, #10b981aa, #059669);
-    box-shadow:
-      0 0 18px rgba(16, 185, 129, 0.4),
-      0 0 10px rgba(16, 185, 129, 0.2) inset;
-  }
-
-  /* Diamond */
-  #glass-diamond:checked ~ .glass-glider {
-    transform: translateX(300%);
-    background: linear-gradient(135deg, #10b981aa, #059669);
-    box-shadow:
-      0 0 18px rgba(16, 185, 129, 0.4),
-      0 0 10px rgba(16, 185, 129, 0.2) inset;
-  }
-`
